@@ -1,10 +1,10 @@
-# Análise Exploratória da Letalidade Violenta - Rio de Janeiro (2024)
+# Análise Exploratória da taxa de Letalidade por Crimes - Rio de Janeiro (2024)
 
-Este repositório contém uma análise exploratória dos dados de letalidade violenta na cidade do Rio de Janeiro, focando no ano de 2024.
+Este repositório contém uma análise exploratória dos dados de letalidade por crimes na cidade do Rio de Janeiro, focando no ano de 2024.
 
 ## Objetivo
 
-Analisar os dados de letalidade violenta na cidade do Rio de Janeiro, identificando padrões mensais e a composição dos crimes que a integram no período mais recente disponível (2024).
+Analisar os dados de letalidade por crimes na cidade do Rio de Janeiro, identificando padrões mensais e a composição dos crimes que a integram no período mais recente disponível (2024).
 
 ## Fonte dos Dados
 
