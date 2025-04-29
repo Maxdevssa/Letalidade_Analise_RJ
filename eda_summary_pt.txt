@@ -1,0 +1,32 @@
+--- Análise Exploratória de Dados (EDA) - Letalidade Violenta no Rio de Janeiro (2024) ---
+Período Analisado: Ano de 2024
+Fonte dos Dados: ISP-RJ (BaseMunicipioMensal.csv)
+Município: Rio de Janeiro
+
+---
+
+1. Total de Ocorrências de Letalidade Violenta em 2024: 1375
+
+2. Evolução Mensal da Letalidade Violenta:
+ mes  letalidade_violenta
+   1                   94
+   2                   94
+   3                  119
+   4                  127
+   5                  145
+   6                  131
+   7                  108
+   8                  110
+   9                   96
+  10                  113
+  11                   96
+  12                  142
+   - Mês com maior letalidade: 5 (145) ocorrências
+   - Mês com menor letalidade: 1 (94) ocorrências
+
+3. Composição da Letalidade Violenta por Tipo de Crime:
+          Tipo de Crime  Total Ocorrências  Percentual (%)
+             hom_doloso                963           70.04
+hom_por_interv_policial                339           24.65
+             latrocinio                 44            3.20
+       lesao_corp_morte                 29            2.11
