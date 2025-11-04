@@ -1,97 +1,81 @@
-# Análise Exploratória da taxa de Letalidade por Crimes - Rio de Janeiro (2024)
+# Análise Exploratória da Letalidade Violenta no Rio de Janeiro (2024)
 
-Este repositório contém uma análise exploratória dos dados de letalidade por crimes na cidade do Rio de Janeiro, focando no ano de 2024.
+Este repositório contém uma análise exploratória dos dados de letalidade violenta na cidade do Rio de Janeiro, focando no ano de 2024. O projeto foi estruturado de forma modular para facilitar a manutenção, portabilidade e execução.
 
 ## Objetivo
 
-Analisar os dados de letalidade por crimes na cidade do Rio de Janeiro, identificando padrões mensais e a composição dos crimes que a integram no período mais recente disponível (2024).
+Analisar os dados de letalidade violenta no município do Rio de Janeiro, identificando padrões mensais e a composição dos crimes que a integram no período mais recente disponível (2024).
+
+## Estrutura do Projeto
+
+O projeto é organizado em módulos, cada um com uma responsabilidade clara:
+
+- `main.py`: Ponto de entrada que orquestra todo o fluxo de trabalho.
+- `config.py`: Módulo de configuração que centraliza caminhos, nomes de colunas e parâmetros da análise.
+- `data_cleaner.py`: Módulo responsável pela limpeza e preparação dos dados.
+- `data_analyzer.py`: Módulo que realiza a análise exploratória dos dados (EDA).
+- `visualizer.py`: Módulo encarregado de gerar as visualizações gráficas.
+- `data/`: Diretório para armazenar os dados brutos e os dados limpos.
+- `plots/`: Diretório onde as visualizações geradas são salvas.
+- `requirements.txt`: Lista de dependências Python do projeto.
 
 ## Fonte dos Dados
 
-Os dados utilizados nesta análise são públicos e foram obtidos diretamente do portal de Dados Abertos do Instituto de Segurança Pública do Rio de Janeiro (ISP-RJ).
+Os dados são públicos e foram obtidos do portal de Dados Abertos do Instituto de Segurança Pública do Rio de Janeiro (ISP-RJ).
 
-*   **Link Principal ISP-RJ:** [https://www.ispdados.rj.gov.br/](https://www.ispdados.rj.gov.br/)
-*   **Dataset Utilizado:** `BaseMunicipioMensal.csv` (Estatísticas de segurança: série histórica mensal por município desde 2014).
-*   **Arquivo Auxiliar:** `Relacao_RISPxAISPxCISP.csv` (Relação das Regiões, Áreas e Circunscrições Integradas de Segurança Pública).
+- **Dataset Principal:** `BaseMunicipioMensal.csv`
 
 ## Período Analisado
 
-A análise concentra-se exclusivamente no ano de **2024**, que representa o último ano completo com dados consolidados disponíveis no dataset `BaseMunicipioMensal.csv` no momento da coleta (Abril de 2025).
+A análise concentra-se no ano de **2024**, conforme definido no arquivo `config.py`.
 
 ## Limitações
 
-*   **Granularidade Geográfica:** A principal limitação desta análise reside na granularidade dos dados. O arquivo `BaseMunicipioMensal.csv` agrega os dados por município, **não permitindo uma análise detalhada por Área Integrada de Segurança Pública (AISP)**. Uma AISP é uma divisão territorial utilizada pela Secretaria de Segurança Pública do RJ para fins de planejamento e policiamento, agrupando bairros sob o comando de um batalhão da PM e delegacias da Polícia Civil. Sem dados desagregados por AISP ou CISP (Circunscrição Integrada de Segurança Pública - delegacia), não foi possível identificar a distribuição espacial da letalidade dentro da cidade do Rio de Janeiro.
-*   **Proxy para Violência:** A análise foca na "letalidade violenta" conforme definida pelo ISP-RJ (soma de homicídio doloso, latrocínio, lesão corporal seguida de morte e homicídio por intervenção de agente do Estado). Este é um indicador importante, mas não abrange toda a complexidade da violência urbana.
-*   **Mortes de Policiais:** Os dados públicos padrão utilizados não permitem isolar especificamente as mortes de policiais em serviço ou fora dele dentro das categorias de letalidade violenta de forma direta e inequívoca, embora exista uma coluna separada (`pol_militares_mortos_serv`, `pol_civis_mortos_serv`) que não foi o foco principal desta análise específica de letalidade violenta geral.
-
-## Processo de Análise
-
-1.  **Coleta:** Download dos arquivos `BaseMunicipioMensal.csv` e `Relacao_RISPxAISPxCISP.csv` do portal ISP-RJ.
-2.  **Limpeza e Preparação:**
-    *   Carregamento dos dados utilizando a biblioteca `pandas`.
-    *   Correção da codificação de caracteres (utilizado `latin1`).
-    *   Limpeza de nomes de colunas (remoção de espaços extras).
-    *   Filtragem dos dados para incluir apenas o município do Rio de Janeiro (coluna `fmun`).
-    *   Seleção do período de análise (ano de 2024).
-    *   Seleção das colunas relevantes: `ano`, `mes`, `fmun`, `hom_doloso`, `latrocinio`, `lesao_corp_morte`, `hom_por_interv_policial`.
-    *   Verificação e tratamento de valores ausentes (preenchidos com 0 nas colunas numéricas de crimes).
-    *   Conversão de tipos de dados.
-    *   Criação da coluna `letalidade_violenta` (soma dos componentes).
-    *   Criação de uma coluna `date` para facilitar análises temporais.
-    *   Constatação da impossibilidade de mapeamento direto para AISP com os dados disponíveis.
-    *   Salvamento do dataset limpo em `data/cleaned_rj_lethality_data.csv`.
-3.  **Análise Exploratória (EDA):**
-    *   Cálculo do total de ocorrências de letalidade violenta em 2024.
-    *   Análise da evolução mensal das ocorrências.
-    *   Identificação dos meses com maior e menor número de casos.
-    *   Análise da composição percentual da letalidade violenta por tipo de crime.
-    *   Salvamento do resumo da análise em `eda_summary.txt`.
-4.  **Visualização:**
-    *   Criação de gráficos utilizando `matplotlib` e `seaborn` para ilustrar os achados da EDA:
-        *   Gráfico de linha da evolução mensal.
-        *   Gráfico de barras do total anual.
-        *   Gráfico de barras empilhadas da composição mensal.
-        *   Gráfico de pizza da composição geral.
-    *   Salvamento dos gráficos na pasta `plots/`.
-5.  **Relatório:** Elaboração de um relatório (`report.md`) detalhando o processo, os resultados, os insights e as limitações da análise.
-
-## Resultados
-
-Os principais resultados da análise para o Rio de Janeiro em 2024 foram:
-
-*   **Total de Ocorrências:** 1.375 casos de letalidade violenta.
-*   **Tendência Mensal:** Flutuação ao longo do ano, com picos em Maio (145) e Dezembro (142), e menores valores em Janeiro/Fevereiro (94).
-*   **Composição:**
-    *   Homicídio Doloso: 70.0% (963 casos)
-    *   Homicídio por Intervenção Policial: 24.7% (339 casos)
-    *   Latrocínio: 3.2% (44 casos)
-    *   Lesão Corporal Seguida de Morte: 2.1% (29 casos)
-
-Os gráficos gerados podem ser encontrados na pasta `plots/`:
-
-*   `rj_lethality_monthly_evolution_2024.png`
-*   `rj_lethality_total_2024.png`
-*   `rj_lethality_monthly_composition_2024.png`
-*   `rj_lethality_overall_composition_2024.png`
-
-## Questões para Investigação Futura
-
-*   Qual a distribuição geográfica (por AISP/CISP/Bairro) da letalidade violenta dentro do Rio de Janeiro?
-*   Como a letalidade violenta em 2024 se compara com anos anteriores?
-*   Quais fatores podem explicar os picos mensais observados (eventos, operações policiais, etc.)?
-*   Existe correlação entre a letalidade violenta e outros indicadores socioeconômicos ou criminais?
+A principal limitação é a granularidade dos dados, que são agregados por município, impedindo uma análise detalhada por Área Integrada de Segurança Pública (AISP) ou bairros.
 
 ## Como Executar
 
-1.  Clone o repositório.
-2.  Certifique-se de ter Python 3 e `pip` instalados.
-3.  Crie um ambiente virtual: `python3 -m venv venv`
-4.  Ative o ambiente virtual: `source venv/bin/activate` (Linux/macOS) ou `venv\Scripts\activate` (Windows)
-5.  Instale as dependências: `pip install pandas matplotlib seaborn`
-6.  Execute os scripts na ordem:
-    *   `python clean_data.py`
-    *   `python eda_analysis.py`
-    *   `python create_visualizations.py`
+O projeto foi refatorado para ser executado de forma simples e direta. Siga os passos abaixo:
 
-Os resultados (dataset limpo, resumo da EDA, gráficos e relatório) estarão nas pastas `data/`, `plots/` e no diretório raiz.
+1.  **Clone o Repositório:**
+    ```bash
+    git clone <URL_DO_REPOSITÓRIO>
+    cd <NOME_DO_REPOSITÓRIO>
+    ```
 
+2.  **Crie e Ative um Ambiente Virtual:**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # Linux/macOS
+    # venv\Scripts\activate   # Windows
+    ```
+
+3.  **Instale as Dependências:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Execute a Análise Completa:**
+    Basta executar o script `main.py` para rodar todo o fluxo de trabalho (limpeza, análise e visualização):
+    ```bash
+    python main.py
+    ```
+
+Após a execução, os resultados serão gerados e salvos nos seguintes locais:
+- **Dados Limpos:** `data/cleaned_rj_lethality_data.csv`
+- **Resumo da Análise:** `eda_summary_pt.txt`
+- **Gráficos:** Dentro da pasta `plots/`
+
+## Resultados
+
+Os principais resultados da análise para o Rio de Janeiro em 2024, gerados automaticamente pelo fluxo, incluem:
+
+- **Total de Ocorrências:** 1.375 casos de letalidade violenta.
+- **Tendência Mensal:** Picos em Maio (145) e Dezembro (142), com os menores valores em Janeiro/Fevereiro (94).
+- **Composição dos Crimes:**
+  - Homicídio Doloso: ~70%
+  - Homicídio por Intervenção Policial: ~25%
+  - Latrocínio: ~3%
+  - Lesão Corporal Seguida de Morte: ~2%
+
+Os gráficos com a evolução mensal e a composição detalhada podem ser encontrados na pasta `plots/`.

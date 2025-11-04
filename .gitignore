@@ -1,0 +1,10 @@
+# Ignorar o diretório de cache do Python
+__pycache__/
+
+# Ignorar ambientes virtuais
+venv/
+*.venv/
+.venv/
+
+# Ignorar ficheiros de sistema
+.DS_Store
